@@ -452,7 +452,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // 8. LocalStorage Private History Manager
-    const STORAGE_KEY = 'voicecraft_user_history_v2';
+    const STORAGE_KEY = 'script2voice_user_history_v2';
+
 
     function getLocalStorageHistory() {
         try {
