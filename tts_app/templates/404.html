@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}404 — Page Not Found | VoiceCraft Studio{% endblock %}
+
+{% block content %}
+<div class="legal-container">
+    <div class="card legal-card text-center" style="padding: 64px 32px;">
+        <span class="hero-badge"><i class="fa-solid fa-triangle-exclamation"></i> Error 404</span>
+        <h1 style="font-size: 64px; font-weight: 800; color: #ffffff; letter-spacing: -0.04em; margin: 16px 0 8px 0;">404</h1>
+        <h2 style="font-size: 20px; font-weight: 600; color: #ffffff; margin-bottom: 12px;">Page Not Found</h2>
+        <p style="font-size: 14px; color: var(--text-secondary); max-width: 480px; margin: 0 auto 24px auto; line-height: 1.6;">
+            The requested page or audio resource does not exist or may have expired from temporary server storage.
+        </p>
+        <div style="display: flex; gap: 12px; justify-content: center;">
+            <a href="{% url 'index' %}" class="btn-primary" style="width: auto; padding: 10px 20px;">
+                <i class="fa-solid fa-house"></i> Return to Studio
+            </a>
+            <a href="{% url 'about' %}" class="btn-secondary" style="padding: 10px 20px;">
+                <i class="fa-solid fa-circle-nodes"></i> Learn About Engine
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

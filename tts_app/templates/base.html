@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}VoiceCraft — Free AI Text to Speech Studio (US & EU Neural Voices){% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Convert script text into natural human voice MP3 audio for YouTube Shorts, Reels, and Podcasts. 30+ US & European Neural Voices, zero API key required, 100% free and private.{% endblock %}">
+    <meta name="keywords" content="Text to speech online, Free AI voice generator USA, US English neural voiceover, UK British text to speech, YouTube shorts voiceover MP3, no API key TTS generator, convert script to MP3 speech">
+    <meta name="author" content="VoiceCraft Studio">
+    <meta name="theme-color" content="#09090b">
+    
+    <!-- OpenGraph Meta Tags -->
+    <meta property="og:title" content="VoiceCraft — Free AI Text to Speech Studio (US & EU Voices)">
+    <meta property="og:description" content="Generate high-quality MP3 voiceovers from text in seconds. Powered by 30+ Neural Voices for US, UK, European, and Asian accents. Free for commercial YouTube & Podcast use.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ request.build_absolute_uri }}">
+
+    <!-- Google Font Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome 6 Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <!-- JSON-LD WebApplication & Rich Snippets Schema for Google SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "VoiceCraft Text to Speech Studio",
+      "url": "https://voicecraft.app",
+      "description": "Free AI Text to Speech generator supporting 30+ US, UK, and European Neural voices with zero API key requirement.",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Minimalist Navbar -->
+        <header class="navbar-wrapper">
+            <nav class="navbar">
+                <a href="{% url 'index' %}" class="nav-brand">
+                    <div class="brand-icon-box">
+                        <i class="fa-solid fa-waveform"></i>
+                    </div>
+                    <span class="brand-name">VoiceCraft</span>
+                    <span class="brand-tag">v2.0</span>
+                </a>
+
+                <!-- Nav Menu Links -->
+                <ul id="nav-menu" class="nav-menu">
+                    <li><a href="{% url 'index' %}#studio" class="nav-link">Studio</a></li>
+                    <li><a href="{% url 'index' %}#how-it-works" class="nav-link">How It Works</a></li>
+                    <li><a href="{% url 'index' %}#features" class="nav-link">Features</a></li>
+                    <li><a href="{% url 'index' %}#faq" class="nav-link">FAQ</a></li>
+                    <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
+                    <li class="mobile-only"><a href="{% url 'privacy_policy' %}" class="nav-link">Privacy Policy</a></li>
+                    <li class="mobile-only"><a href="{% url 'terms_of_service' %}" class="nav-link">Terms of Service</a></li>
+                </ul>
+
+                <div class="nav-actions">
+                    <a href="{% url 'index' %}#studio" class="btn-nav-cta">
+                        Generate Audio <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <button type="button" id="mobile-toggle" class="btn-mobile-toggle" aria-label="Toggle Navigation">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Main Body Content -->
+        <main class="content-wrapper">
+            {% block content %}{% endblock %}
+        </main>
+
+        <!-- Minimalist Footer -->
+        <footer class="footer-wrapper">
+            <div class="footer-container">
+                <div class="footer-grid">
+                    <div class="footer-col brand-col">
+                        <a href="{% url 'index' %}" class="nav-brand">
+                            <div class="brand-icon-box">
+                                <i class="fa-solid fa-waveform"></i>
+                            </div>
+                            <span class="brand-name">VoiceCraft Studio</span>
+                        </a>
+                        <p class="footer-desc">
+                            High-fidelity AI speech synthesis for US, UK, and European content creators. Generate commercial MP3 voiceovers with zero API keys or subscriptions.
+                        </p>
+                    </div>
+
+                    <div class="footer-col">
+                        <h3>Product</h3>
+                        <ul class="footer-links">
+                            <li><a href="{% url 'index' %}#studio">Speech Studio</a></li>
+                            <li><a href="{% url 'index' %}#how-it-works">How It Works</a></li>
+                            <li><a href="{% url 'index' %}#features">Voice Features</a></li>
+                            <li><a href="{% url 'index' %}#faq">FAQ</a></li>
+                            <li><a href="{% url 'about' %}">Engine Architecture</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-col">
+                        <h3>Legal & Policy</h3>
+                        <ul class="footer-links">
+                            <li><a href="{% url 'privacy_policy' %}">Privacy Policy (GDPR / CCPA)</a></li>
+                            <li><a href="{% url 'terms_of_service' %}">Terms of Service</a></li>
+                            <li><a href="{% url 'terms_of_service' %}#commercial-rights">Commercial Rights</a></li>
+                            <li><a href="{% url 'privacy_policy' %}#cookies">AdSense Data Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="footer-bottom">
+                    <p>© 2026 VoiceCraft Studio • Designed for Creators in the US & Europe.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden">
+        <i class="toast-icon fa-solid fa-circle-check"></i>
+        <span id="toast-message">Message text</span>
+    </div>
+
+    <script src="{% static 'js/app.js' %}"></script>
+</body>
+</html>

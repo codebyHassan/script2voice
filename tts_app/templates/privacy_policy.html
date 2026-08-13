@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Privacy Policy (GDPR & CCPA Compliant) — VoiceCraft Studio{% endblock %}
+{% block meta_description %}Privacy Policy for VoiceCraft Studio. Learn how we protect user privacy, handle browser localStorage, enforce zero-database tracking, and comply with GDPR & CCPA regulations.{% endblock %}
+
+{% block content %}
+<div class="legal-container">
+    <div class="card legal-card">
+        <div class="legal-header">
+            <span class="badge badge-free"><i class="fa-solid fa-shield-halved"></i> Data Protection</span>
+            <h1>Privacy Policy</h1>
+            <p class="legal-meta">Last Updated: August 13, 2026 • Compliant with GDPR, CCPA, and Google AdSense Policies</p>
+        </div>
+
+        <div class="legal-body">
+            <section class="legal-section">
+                <h2>1. Introduction & Privacy Commitment</h2>
+                <p>Welcome to <strong>VoiceCraft Studio</strong> ("we," "our," or "us"). We are committed to protecting the privacy and confidentiality of our users in the United States, United Kingdom, European Union, and worldwide. This Privacy Policy explains how our Text to Speech web application handles user data, browser storage, and temporary media files.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>2. Zero Database Tracking & Browser LocalStorage</h2>
+                <p>We operate on a <strong>Stateless & Privacy-First Architecture</strong>. We do NOT store your text inputs, audio scripts, or generated conversion history in any server-side database. All conversion history items are stored exclusively within your own web browser's <code>localStorage</code>.</p>
+                <ul>
+                    <li>Your generated audio history remains 100% private to your browser.</li>
+                    <li>No other visitor or third party can access your saved audio conversions.</li>
+                    <li>You can clear your local audio history at any time by clicking the delete button or clearing your browser cache.</li>
+                </ul>
+            </section>
+
+            <section class="legal-section">
+                <h2>3. Temporary Media File Management</h2>
+                <p>When you convert text into speech, our backend synthesizes a temporary <code>.mp3</code> file to deliver the audio stream to your browser. These temporary files are stored in a transient server directory and are <strong>automatically purged and deleted after 2 hours</strong> by our background janitor routine. We do not archive or store your spoken audio files permanently on our servers.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>4. Advertising & Google AdSense Cookies</h2>
+                <p>We use Google AdSense to serve advertisements on our web application. Third-party vendors, including Google, use cookies to serve ads based on a user's prior visits to our website or other websites.</p>
+                <ul>
+                    <li>Google's use of advertising cookies enables it and its partners to serve ads to users based on their visit to our sites and/or other sites on the Internet.</li>
+                    <li>Users in the United States and European Union may opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google Ad Settings</a>.</li>
+                </ul>
+            </section>
+
+            <section class="legal-section">
+                <h2>5. Compliance with EU GDPR & California CCPA</h2>
+                <p>Because we do not store personally identifiable information (PII) or user accounts on our servers, you can use VoiceCraft with complete anonymity. Under the General Data Protection Regulation (GDPR) and California Consumer Privacy Act (CCPA), you retain full ownership and control over your locally stored browser data.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>6. Contact Us</h2>
+                <p>If you have any questions regarding this Privacy Policy or data privacy practices, please contact us at <code>privacy@voicecraft.app</code>.</p>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,395 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Free AI Text to Speech Generator (No Login, 100% Free MP3 Download) — VoiceCraft Studio{% endblock %}
+{% block meta_description %}100% Free Text to Speech tool with zero login or signup required. Just paste your text script and download high-quality MP3 voiceover audio in seconds. 30+ US & European Neural Voices.{% endblock %}
+
+{% block content %}
+<div id="studio" class="studio-wrapper">
+    <!-- Hero Banner -->
+    <div class="hero-section">
+        <div class="hero-badges-wrapper" style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px;">
+            <span class="hero-badge"><i class="fa-solid fa-bolt"></i> 100% Free Tool</span>
+            <span class="hero-badge"><i class="fa-solid fa-lock-open"></i> No Login Required</span>
+            <span class="hero-badge"><i class="fa-solid fa-paste"></i> Just Paste & Download MP3</span>
+            <span class="hero-badge"><i class="fa-solid fa-shield-halved"></i> 100% Private Browser Storage</span>
+        </div>
+        <h1 class="hero-title">Free AI Text to Speech Studio for US & European Creators</h1>
+        <p class="hero-sub">No sign-up, no API key, and no subscription fees. Convert script text into natural human MP3 audio in seconds for YouTube Shorts, Reels, Podcasts, and Commercial Ads.</p>
+    </div>
+
+    <!-- AdSense Top Leaderboard Banner Slot -->
+    <div class="adsense-slot adsense-leaderboard">
+        <div class="adsense-placeholder">
+            <span class="adsense-label">ADVERTISEMENT</span>
+            <!-- Google AdSense Code Tag Insert Here -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="1234567890"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
+    </div>
+
+    <!-- Main Studio Tool Card -->
+    <section class="card studio-card">
+        <div class="card-header">
+            <h2><i class="fa-solid fa-align-left"></i> Script Text Input (Just Paste & Convert)</h2>
+            <div class="preset-pills">
+                <span class="preset-label">Sample Presets:</span>
+                <button type="button" class="btn-preset" data-text="Welcome to VoiceCraft Studio. Convert any script text into natural MP3 audio files instantly without any API key or subscription.">Welcome</button>
+                <button type="button" class="btn-preset" data-text="### 0:00–0:04 — Open Login&#10;&#10;Let's begin by accessing the admin panel.&#10;Go to the top-right corner of the screen and click on the Login button.&#10;&#10;### 0:04–0:08 — Enter Login Details&#10;&#10;On the login screen, enter your username and password in the required fields.">Video Script (Timestamps)</button>
+                <button type="button" class="btn-preset" data-text="Bonjour tout le monde! C'est une excellente journée pour apprendre et créer quelque chose de fantastique.">French Story</button>
+            </div>
+        </div>
+
+        <div class="textarea-wrapper">
+            <textarea id="text-input" placeholder="Type or paste your video script text here (e.g. ### 0:00–0:04 — Section Title)..." maxlength="5000" rows="8"></textarea>
+            <div class="textarea-footer">
+                <div class="textarea-actions">
+                    <label class="toggle-clean-switch" title="Automatically strip ### 0:00–0:04 timestamp headers from text">
+                        <input type="checkbox" id="toggle-clean" checked>
+                        <span class="clean-toggle-label"><i class="fa-solid fa-broom"></i> Auto-Clean Headers</span>
+                    </label>
+                    <button type="button" id="btn-clean" class="btn-preset" title="Clean headers, timestamps, and markdown immediately">
+                        Manual Clean
+                    </button>
+                    <button type="button" id="btn-paste" class="btn-preset" title="Paste from clipboard">
+                        <i class="fa-regular fa-paste"></i> Paste
+                    </button>
+                    <button type="button" id="btn-clear" class="btn-preset" title="Clear text">
+                        <i class="fa-regular fa-trash-can"></i> Clear
+                    </button>
+                </div>
+                <div class="counter-group">
+                    <span id="duration-counter" class="badge-accent"><i class="fa-solid fa-clock"></i> Est: 0m 00s</span>
+                    <span>•</span>
+                    <span id="char-counter">0 / 5000 chars</span>
+                    <span>•</span>
+                    <span id="word-counter">0 words</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls Form -->
+        <form id="tts-form" class="controls-grid">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="voice-select">
+                    <i class="fa-solid fa-microphone"></i> Voice Persona & Accent
+                </label>
+                <div class="select-wrapper">
+                    <select id="voice-select" name="voice">
+                        {% for code, info in voices.items %}
+                        <option value="{{ code }}" {% if code == 'en-US-JennyNeural' %}selected{% endif %}>
+                            {{ info.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                    <i class="fa-solid fa-chevron-down select-arrow"></i>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="rate-select">
+                    <i class="fa-solid fa-gauge-high"></i> Speed & Duration Fit
+                </label>
+                <div class="select-wrapper">
+                    <select id="rate-select" name="rate">
+                        {% for val, name in rate_options.items %}
+                        <option value="{{ val }}" {% if val == '+0%' %}selected{% endif %}>
+                            {{ name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                    <i class="fa-solid fa-chevron-down select-arrow"></i>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="pitch-select">
+                    <i class="fa-solid fa-sliders"></i> Voice Pitch Tone
+                </label>
+                <div class="select-wrapper">
+                    <select id="pitch-select" name="pitch">
+                        {% for val, name in pitch_options.items %}
+                        <option value="{{ val }}" {% if val == '+0Hz' %}selected{% endif %}>
+                            {{ name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                    <i class="fa-solid fa-chevron-down select-arrow"></i>
+                </div>
+            </div>
+
+            <div class="form-group action-group">
+                <button type="submit" id="btn-generate" class="btn-primary">
+                    <span class="btn-content">
+                        <i class="fa-solid fa-play"></i> Generate Audio MP3
+                    </span>
+                    <span class="btn-loader hidden">
+                        <i class="fa-solid fa-spinner fa-spin"></i> Synthesizing...
+                    </span>
+                </button>
+            </div>
+        </form>
+    </section>
+
+    <!-- Chunked Loader Modal Popup Overlay -->
+    <div id="loader-modal" class="loader-modal-overlay hidden">
+        <div class="loader-modal-content">
+            <div class="loader-icon-wrapper">
+                <i class="fa-solid fa-waveform fa-bounce"></i>
+            </div>
+            <h3 class="loader-title">Synthesizing Neural Speech</h3>
+            <p id="loader-status-text" class="loader-status">Some patience — it's worth it...</p>
+            
+            <!-- Segmented Chunked Progress Bar -->
+            <div class="chunk-progress-container">
+                <div class="chunk-bar" id="chunk-1"></div>
+                <div class="chunk-bar" id="chunk-2"></div>
+                <div class="chunk-bar" id="chunk-3"></div>
+                <div class="chunk-bar" id="chunk-4"></div>
+                <div class="chunk-bar" id="chunk-5"></div>
+            </div>
+            <span id="loader-percent" class="loader-percent-badge">0% Completed</span>
+        </div>
+    </div>
+
+    <!-- Active Audio Player Card -->
+    <section id="player-card" class="card player-card hidden">
+        <div class="card-header">
+            <h2><i class="fa-solid fa-volume-high"></i> Audio Preview</h2>
+            <span id="player-lang-badge" class="badge-accent">English</span>
+        </div>
+
+        <div class="player-body">
+            <p id="player-text-preview" class="player-text-preview">"Generated audio snippet..."</p>
+
+            <audio id="main-audio" preload="auto"></audio>
+
+            <div class="timeline-container">
+                <span id="current-time">0:00</span>
+                <div class="progress-bar-wrapper" id="progress-wrapper">
+                    <div id="progress-bar" class="progress-bar"></div>
+                </div>
+                <span id="total-duration">0:00</span>
+            </div>
+
+            <div class="player-controls">
+                <div class="left-controls">
+                    <button type="button" id="btn-play-pause" class="btn-player-primary" title="Play/Pause">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                    <div class="volume-container">
+                        <button type="button" id="btn-mute" class="btn-icon" title="Mute/Unmute">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </button>
+                        <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="1">
+                    </div>
+                </div>
+
+                <div class="right-controls">
+                    <span id="player-file-size" class="badge-accent">120 KB</span>
+                    <a id="btn-download" href="#" download class="btn-secondary">
+                        <i class="fa-solid fa-download"></i> Download MP3
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- History Section -->
+    <section class="card history-card">
+        <div class="card-header">
+            <h2><i class="fa-solid fa-shield-halved"></i> Private Local History (Browser)</h2>
+            <span id="history-count" class="badge-accent">0 records</span>
+        </div>
+
+        <div id="history-list" class="history-list">
+            <div class="empty-state">
+                <p>No audio generated yet. Convert text above to save to your browser's private history.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="section-container">
+        <div class="section-title">
+            <span class="hero-badge">Workflow</span>
+            <h2>Just Come, Paste & Download MP3 in 3 Easy Steps</h2>
+        </div>
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-icon"><i class="fa-solid fa-paste"></i></div>
+                <h3>1. Paste Your Text</h3>
+                <p>No sign-up or login required! Simply copy your transcript or video script and paste it into our text box. Auto-Clean automatically strips timestamp markers like <code>### 0:00–0:04</code>.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-icon"><i class="fa-solid fa-sliders"></i></div>
+                <h3>2. Pick Voice & Pace</h3>
+                <p>Select from 30+ American, British, European, and Asian Neural voices. Tune speech rate from 0.5x to 2.0x to fit your exact video timeline.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-icon"><i class="fa-solid fa-download"></i></div>
+                <h3>3. Download MP3</h3>
+                <p>Click Generate Audio MP3, preview with our waveform player, and download high-bitrate MP3 files instantly with full commercial rights.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Voice Catalog Comparison Section (SEO Rich Table) -->
+    <section class="section-container">
+        <div class="section-title">
+            <span class="hero-badge">Voice Catalog</span>
+            <h2>Top Neural Voices for US & European Creators</h2>
+        </div>
+        <div class="card" style="overflow-x: auto; padding: 20px;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; color: var(--text-secondary);">
+                <thead>
+                    <tr style="border-bottom: 1px solid var(--border-subtle); color: #ffffff;">
+                        <th style="padding: 12px;">Voice Name</th>
+                        <th style="padding: 12px;">Accent / Region</th>
+                        <th style="padding: 12px;">Gender & Tone</th>
+                        <th style="padding: 12px;">Best Use Case</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid var(--border-subtle);">
+                        <td style="padding: 12px; color: #fff; font-weight: 600;">🎙️ Jenny Neural</td>
+                        <td style="padding: 12px;">🇺🇸 US American</td>
+                        <td style="padding: 12px;">Female (Natural & Clear)</td>
+                        <td style="padding: 12px;">YouTube Shorts, Explainer Videos, E-Learning</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border-subtle);">
+                        <td style="padding: 12px; color: #fff; font-weight: 600;">🎙️ Guy Neural</td>
+                        <td style="padding: 12px;">🇺🇸 US American</td>
+                        <td style="padding: 12px;">Male (Neutral & Professional)</td>
+                        <td style="padding: 12px;">Tech Reviews, Corporate Presentations, Documentaries</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border-subtle);">
+                        <td style="padding: 12px; color: #fff; font-weight: 600;">🎙️ Aria Neural</td>
+                        <td style="padding: 12px;">🇺🇸 US American</td>
+                        <td style="padding: 12px;">Female (Upbeat & Expressive)</td>
+                        <td style="padding: 12px;">Instagram Reels, Commercial Ads, TikTok Narrations</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border-subtle);">
+                        <td style="padding: 12px; color: #fff; font-weight: 600;">🎙️ Christopher Neural</td>
+                        <td style="padding: 12px;">🇺🇸 US American</td>
+                        <td style="padding: 12px;">Male (Deep & Authoritative)</td>
+                        <td style="padding: 12px;">Movie Trailers, True Crime Podcasts, Storytelling</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border-subtle);">
+                        <td style="padding: 12px; color: #fff; font-weight: 600;">🇬🇧 Sonia Neural</td>
+                        <td style="padding: 12px;">🇬🇧 British UK</td>
+                        <td style="padding: 12px;">Female (Warm & Elegance)</td>
+                        <td style="padding: 12px;">Audiobooks, History Narrations, Luxury Brands</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Detailed SEO Long Content Section -->
+    <section class="section-container">
+        <div class="card" style="padding: 36px; line-height: 1.7;">
+            <span class="hero-badge" style="margin-bottom: 12px;">Comprehensive Guide</span>
+            <h2 style="font-size: 26px; color: #fff; font-weight: 700; margin-bottom: 16px;">The Ultimate Free AI Text-to-Speech Tool for US & EU Content Creators</h2>
+            
+            <p style="color: var(--text-secondary); margin-bottom: 16px;">
+                In the fast-evolving digital media landscape, content creators in the United States, United Kingdom, and Europe rely on high-quality audio narration to engage audiences across YouTube Shorts, Instagram Reels, TikTok, and Podcasts. <strong>VoiceCraft Studio</strong> provides a 100% free, browser-based solution that converts script text into studio-grade MP3 audio files in seconds.
+            </p>
+
+            <h3 style="font-size: 18px; color: #fff; margin: 20px 0 10px 0;">Why Choose a No-Login, Zero API Key TTS Generator?</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 16px;">
+                Traditional Text-to-Speech platforms require tedious account sign-ups, credit card submissions, and expensive monthly subscriptions or API key tokens. VoiceCraft eliminates these friction points entirely. With <strong>zero login required</strong>, creators can open the website, paste their script, select a neural voice, and download high-bitrate MP3 files instantly.
+            </p>
+
+            <h3 style="font-size: 18px; color: #fff; margin: 20px 0 10px 0;">100% Commercial Usage Rights for YouTube & Podcasts</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 16px;">
+                All audio files generated using VoiceCraft Studio come with complete commercial usage rights. Whether you are monetizing a YouTube channel, producing commercial podcast episodes, or running digital advertisements, your generated MP3 voiceovers are 100% royalty-free and ready for global distribution.
+            </p>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section-container">
+        <div class="section-title">
+            <span class="hero-badge">Architecture</span>
+            <h2>Built for US & European Creators</h2>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-key"></i></div>
+                <h3>Zero API Key Needed</h3>
+                <p>Generate speech with no subscriptions, API keys, or usage caps. Powered by Microsoft Edge Neural engines.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-microphone-lines"></i></div>
+                <h3>30+ US & European Accents</h3>
+                <p>Natural human inflections across American (Jenny, Guy, Aria, Christopher), British (Sonia, Ryan), and EU voices.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-clock"></i></div>
+                <h3>Precision Pace Fitting</h3>
+                <p>Fit speech into exact 30s Reels or 2-minute YouTube Shorts timelines using fine-grained speed controls.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-lock"></i></div>
+                <h3>100% Private Local Storage</h3>
+                <p>Your text and history remain private in your browser. Temporary server audio files auto-purge after 2 hours.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Accordion Section -->
+    <section id="faq" class="section-container">
+        <div class="section-title">
+            <span class="hero-badge">Questions</span>
+            <h2>Frequently Asked Questions</h2>
+        </div>
+        <div class="faq-accordion">
+            <div class="faq-item">
+                <button type="button" class="faq-question">
+                    <span>Is VoiceCraft really 100% free with no login required?</span>
+                    <i class="fa-solid fa-chevron-down faq-icon"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Yes! VoiceCraft requires zero login, zero signup, and zero credit card information. Just visit the site, paste your script, and download your MP3 audio file immediately.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button type="button" class="faq-question">
+                    <span>Can I use the generated MP3 audio for monetized YouTube channels & Podcasts?</span>
+                    <i class="fa-solid fa-chevron-down faq-icon"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Yes. All generated MP3 audio files include full commercial usage rights for YouTube monetization, TikTok, Instagram Reels, Podcasts, and commercial advertising.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button type="button" class="faq-question">
+                    <span>How does Auto-Clean Headers work?</span>
+                    <i class="fa-solid fa-chevron-down faq-icon"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Auto-Clean strips out section headers like <code>### 0:00–0:04 — Section Title</code> and markdown formatting before audio generation, ensuring clean speech output.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button type="button" class="faq-question">
+                    <span>Where is my audio history stored?</span>
+                    <i class="fa-solid fa-chevron-down faq-icon"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Your conversion history lives exclusively inside your browser's <code>localStorage</code>. No server database stores your text or conversion history.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

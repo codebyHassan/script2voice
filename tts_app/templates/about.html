@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About VoiceCraft Architecture & Engine Specs — Free AI Text to Speech Studio{% endblock %}
+{% block meta_description %}Learn about VoiceCraft Studio's Neural Speech Engine, Microsoft Edge Neural TTS models, speech rate duration fitting algorithms, and zero-login architecture.{% endblock %}
+
+{% block content %}
+<div class="legal-container">
+    <div class="card legal-card">
+        <div class="legal-header">
+            <span class="hero-badge"><i class="fa-solid fa-microchip"></i> Engine Overview</span>
+            <h1>About VoiceCraft Speech Engine</h1>
+            <p class="legal-meta">Powered by Microsoft Edge Neural TTS & Python gTTS Engines • 100% Free & No Login Required</p>
+        </div>
+
+        <div class="legal-body">
+            <section class="legal-section">
+                <h2>The VoiceCraft Mission</h2>
+                <p><strong>VoiceCraft Studio</strong> was engineered with a clear mission: to democratize high-quality AI speech synthesis for video editors, podcasters, educators, and digital marketers across the United States, United Kingdom, and European Union. By eliminating user registration, paywalls, and API key requirements, we provide an accessible, instant text-to-speech platform where users can simply <strong>come, paste text, and download MP3 audio</strong>.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>Core Speech Technologies & Specifications</h2>
+                <p>Our speech synthesis pipeline leverages advanced deep neural network models to generate human-like voice inflections, natural pauses, and pitch cadence. Key technical capabilities include:</p>
+                <ul>
+                    <li><strong>30+ Neural Voice Personas:</strong> High-definition US American (Jenny, Guy, Aria, Christopher), British UK (Sonia, Ryan), Australian, Indian, and European language voices.</li>
+                    <li><strong>Speech Rate & Duration Fitting:</strong> Fine-grained speed multipliers (0.5x to 2.0x) designed to align voiceovers with 30-second Reels or 2-minute YouTube Shorts timelines.</li>
+                    <li><strong>Pitch & Cartoon Tuning:</strong> Custom frequency settings ranging from +30Hz (cute cartoon style) to -30Hz (deep monster tone).</li>
+                    <li><strong>Automatic Transcript Header Stripper:</strong> Smart regular expression engine that strips timestamp markers like <code>### 0:00–0:04 — Title</code> before synthesis.</li>
+                </ul>
+            </section>
+
+            <section class="legal-section">
+                <h2>Stateless Architecture & Data Isolation</h2>
+                <p>VoiceCraft operates on a <strong>Stateless & Privacy-First Architecture</strong>. Unlike conventional SaaS platforms, we do not store your text input or audio files in any permanent server database. Your conversion history is saved locally in your own browser's <code>localStorage</code>, guaranteeing total privacy and instant access.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>Commercial Usage Rights for Creators</h2>
+                <p>All MP3 files synthesized by VoiceCraft Studio are 100% royalty-free and approved for commercial distribution on YouTube monetization channels, Spotify podcasts, TikTok advertisements, and commercial video broadcasts.</p>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}
